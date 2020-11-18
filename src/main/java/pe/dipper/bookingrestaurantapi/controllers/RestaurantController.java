@@ -1,4 +1,4 @@
-package pe.dipper.bookingrestaurantapi.controller;
+package pe.dipper.bookingrestaurantapi.controllers;
 
 /**
  * @author Dipper
