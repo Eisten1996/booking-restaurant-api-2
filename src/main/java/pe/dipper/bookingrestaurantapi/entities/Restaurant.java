@@ -1,6 +1,7 @@
 package pe.dipper.bookingrestaurantapi.entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author Dipper
@@ -12,7 +13,7 @@ import javax.persistence.*;
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", unique = true, nullable = true)
+    @Column(name = "ID", unique = true, nullable = false)
     private Long id;
 
     @Column(name = "NAME")
@@ -26,4 +27,7 @@ public class Restaurant {
 
     @Column(name = "IMAGE")
     private String image;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "restaurant")
+    private List<Reservation> reservations;
 }
