@@ -1,4 +1,4 @@
-package pe.dipper.bookingrestaurantapi;
+package pe.dipper.bookingrestaurantapi.dtos;
 
 import java.io.Serializable;
 

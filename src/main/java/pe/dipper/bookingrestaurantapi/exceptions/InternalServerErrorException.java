@@ -1,7 +1,7 @@
 package pe.dipper.bookingrestaurantapi.exceptions;
 
 import org.springframework.http.HttpStatus;
-import pe.dipper.bookingrestaurantapi.ErrorDto;
+import pe.dipper.bookingrestaurantapi.dtos.ErrorDto;
 
 import java.util.Arrays;
 
