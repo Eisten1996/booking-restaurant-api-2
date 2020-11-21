@@ -9,6 +9,9 @@ import pe.dipper.bookingrestaurantapi.jsons.RestaurantRest;
 import pe.dipper.bookingrestaurantapi.repositories.RestaurantRepository;
 import pe.dipper.bookingrestaurantapi.services.RestaurantService;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * @author Dipper
  * @project booking-restaurant-api
@@ -24,6 +27,14 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public RestaurantRest getRestaurantById(Long restaurantId) throws BookingException {
         return MODEL_MAPPER.map(getRestaurantEntity(restaurantId), RestaurantRest.class);
+    }
+
+    @Override
+    public List<RestaurantRest> getRestaurants() throws BookingException {
+        final List<Restaurant> restaurantsEntity = restaurantRepository.findAll();
+        return restaurantsEntity.stream().map(service -> MODEL_MAPPER
+                .map(service, RestaurantRest.class))
+                .collect(Collectors.toList());
     }
 
     private Restaurant getRestaurantEntity(Long restaurantId) throws BookingException {
