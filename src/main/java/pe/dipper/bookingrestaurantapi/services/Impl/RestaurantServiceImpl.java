@@ -1,7 +1,10 @@
 package pe.dipper.bookingrestaurantapi.services.Impl;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import pe.dipper.bookingrestaurantapi.entities.Restaurant;
 import pe.dipper.bookingrestaurantapi.exceptions.BookingException;
 import pe.dipper.bookingrestaurantapi.exceptions.NotFoundException;
@@ -17,10 +20,13 @@ import java.util.stream.Collectors;
  * @project booking-restaurant-api
  * @created 19/11/2020 - 23:48
  */
+@Service
 public class RestaurantServiceImpl implements RestaurantService {
 
     @Autowired
     RestaurantRepository restaurantRepository;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(RestaurantServiceImpl.class);
 
     public static final ModelMapper MODEL_MAPPER = new ModelMapper();
 

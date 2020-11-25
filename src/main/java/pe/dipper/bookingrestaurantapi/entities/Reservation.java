@@ -29,7 +29,7 @@ public class Reservation {
     private Date date;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "RESTAUTANT_ID", nullable = false)
+    @JoinColumn(name = "RESTAURANT_ID", nullable = false)
     private Restaurant restaurant;
 
     public Long getId() {

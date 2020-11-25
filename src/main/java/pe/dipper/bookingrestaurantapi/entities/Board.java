@@ -23,7 +23,7 @@ public class Board {
     private Long number;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "RESTAUTANT_ID", nullable = false)
+    @JoinColumn(name = "RESTAURANT_ID", nullable = false)
     private Restaurant restaurant;
 
     public Long getId() {
