@@ -9,6 +9,8 @@ import pe.dipper.bookingrestaurantapi.jsons.RestaurantRest;
 import pe.dipper.bookingrestaurantapi.responses.BookingResponse;
 import pe.dipper.bookingrestaurantapi.services.RestaurantService;
 
+import java.util.List;
+
 /**
  * @author Dipper
  * @project booking-restaurant-api
@@ -27,5 +29,11 @@ public class RestaurantController {
     public BookingResponse<RestaurantRest> getRestaurantById(@PathVariable Long restaurantId) throws BookingException {
         return new BookingResponse<>("Succes", String.valueOf(HttpStatus.OK), "OK",
                 restaurantService.getRestaurantById(restaurantId));
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "restaurants", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public BookingResponse<List<RestaurantRest>> getRestaurants() throws BookingException {
+        return new BookingResponse<>("Success", String.valueOf(HttpStatus.OK), "OK", restaurantService.getRestaurants());
     }
 }
