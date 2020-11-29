@@ -17,6 +17,7 @@ import java.util.List;
  * @created 18/11/2020 - 17:05
  */
 @RestController
+@CrossOrigin(value = "http://localhost:4200")
 @RequestMapping(path = "/booking-restaurant" + "/v1")
 public class RestaurantController {
 
