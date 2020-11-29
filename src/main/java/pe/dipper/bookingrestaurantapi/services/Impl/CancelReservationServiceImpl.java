@@ -3,6 +3,7 @@ package pe.dipper.bookingrestaurantapi.services.Impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import pe.dipper.bookingrestaurantapi.exceptions.BookingException;
 import pe.dipper.bookingrestaurantapi.exceptions.InternalServerErrorException;
 import pe.dipper.bookingrestaurantapi.exceptions.NotFoundException;
@@ -14,6 +15,7 @@ import pe.dipper.bookingrestaurantapi.services.CancelReservationService;
  * @project booking-restaurant-api
  * @created 21/11/2020 - 18:12
  */
+@Service
 public class CancelReservationServiceImpl implements CancelReservationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CancelReservationServiceImpl.class);

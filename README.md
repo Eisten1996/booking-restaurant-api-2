@@ -11,3 +11,6 @@ Manejo de errores en una API
 
 ## Sección 8:
 Servicios y lógica de negocio
+
+## Sección 9:
+EndPoints o Controladores

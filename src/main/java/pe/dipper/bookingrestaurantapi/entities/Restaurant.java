@@ -11,6 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "RESTAURANT")
 public class Restaurant {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", unique = true, nullable = false)
@@ -100,4 +101,5 @@ public class Restaurant {
     public void setTurns(List<Turn> turns) {
         this.turns = turns;
     }
+
 }
