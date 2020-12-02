@@ -37,6 +37,7 @@ public class RestaurantControllerTest {
 
     private static final List<TurnRest> TURN_LIST = new ArrayList<>();
     private static final RestaurantRest RESTAURANT_REST = new RestaurantRest();
+    private static final List<RestaurantRest> RESTAURANT_REST_LIST = new ArrayList<>();
 
     @Mock
     RestaurantService restaurantService;
@@ -55,6 +56,7 @@ public class RestaurantControllerTest {
         RESTAURANT_REST.setTurns(TURN_LIST);
 
         Mockito.when(restaurantService.getRestaurantById(RESTAURANT_ID)).thenReturn(RESTAURANT_REST);
+        Mockito.when(restaurantService.getRestaurants()).thenReturn(RESTAURANT_REST_LIST);
     }
 
     @Test
@@ -64,6 +66,17 @@ public class RestaurantControllerTest {
         assertEquals(response.getCode(), SUCCESS_CODE);
         assertEquals(response.getMessage(), OK);
         assertEquals(response.getData(), RESTAURANT_REST);
+    }
+
+    @Test
+    public void getRestaurantsTest() throws BookingException {
+        final BookingResponse<List<RestaurantRest>> response = restaurantController.getRestaurants();
+
+        assertEquals(response.getStatus(), SUCCESS_STATUS);
+        assertEquals(response.getCode(), SUCCESS_CODE);
+        assertEquals(response.getMessage(), OK);
+        assertEquals(response.getData(), RESTAURANT_REST_LIST);
+
     }
 
 }
