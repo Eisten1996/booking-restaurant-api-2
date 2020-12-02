@@ -12,12 +12,16 @@ import pe.dipper.bookingrestaurantapi.entities.Reservation;
 import pe.dipper.bookingrestaurantapi.entities.Restaurant;
 import pe.dipper.bookingrestaurantapi.entities.Turn;
 import pe.dipper.bookingrestaurantapi.exceptions.BookingException;
+import pe.dipper.bookingrestaurantapi.jsons.RestaurantRest;
 import pe.dipper.bookingrestaurantapi.repositories.RestaurantRepository;
 import pe.dipper.bookingrestaurantapi.services.Impl.RestaurantServiceImpl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Dipper
@@ -65,9 +69,19 @@ public class RestaurantServiceTest {
     }
 
     @Test
-    public void getRestaurantByIdTestError() throws BookingException {
+    public void getRestaurantByIdTestError() {
 
         Mockito.when(restaurantRepository.findById(RESTAURANT_ID)).thenReturn(Optional.empty());
         Assertions.assertThrows(BookingException.class, () -> restaurantService.getRestaurantById(RESTAURANT_ID));
+    }
+
+    @Test
+    public void getRestaurantsTest() throws BookingException {
+        final Restaurant restaurant = new Restaurant();
+        Mockito.when(restaurantRepository.findAll()).thenReturn(Arrays.asList(restaurant));
+        final List<RestaurantRest> response = restaurantService.getRestaurants();
+        assertNotNull(response);
+        assertFalse(response.isEmpty());
+        assertEquals(response.size(), 1);
     }
 }
