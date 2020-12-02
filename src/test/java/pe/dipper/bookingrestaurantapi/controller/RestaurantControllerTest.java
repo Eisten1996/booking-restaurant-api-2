@@ -31,7 +31,7 @@ public class RestaurantControllerTest {
     private static final String ADDRESS = "Av Peru";
     private static final String IMAGE = "www.image.com";
 
-    private static final String SUCCESS_STATUS = "Succes";
+    private static final String SUCCESS_STATUS = "Success";
     private static final String SUCCESS_CODE = "200 OK";
     private static final String OK = "OK";
 
@@ -56,7 +56,6 @@ public class RestaurantControllerTest {
         RESTAURANT_REST.setTurns(TURN_LIST);
 
         Mockito.when(restaurantService.getRestaurantById(RESTAURANT_ID)).thenReturn(RESTAURANT_REST);
-        Mockito.when(restaurantService.getRestaurants()).thenReturn(RESTAURANT_REST_LIST);
     }
 
     @Test
