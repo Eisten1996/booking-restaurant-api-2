@@ -1,5 +1,6 @@
 package pe.dipper.bookingrestaurantapi.services;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -45,6 +46,7 @@ public class ReservationServiceTest {
     private static final List<Turn> TURN_LIST = new ArrayList<>();
 
     private static final Optional<Restaurant> OPTIONAL_RESTAURANT = Optional.of(RESTAURANT);
+    private static final Optional<Restaurant> OPTIONAL_RESTAURANT_EMPTY = Optional.empty();
     private static final Optional<Turn> OPTIONAL_TURN = Optional.of(TURN);
     private static final Optional<Reservation> OPTIONAL_RESERVATION_EMPTY = Optional.empty();
 
@@ -85,5 +87,12 @@ public class ReservationServiceTest {
         Mockito.when(reservationRepository.findByTurnAndRestaurantId(TURN.getName(), RESTAURANT_ID)).thenReturn(OPTIONAL_RESERVATION_EMPTY);
         Mockito.when(reservationRepository.save(Mockito.any(Reservation.class))).thenReturn(new Reservation());
         reservationService.createReservation(CREATE_RESERVATION_REST);
+    }
+
+    @Test
+    public void createReservationFindByIdTestError() {
+
+        Mockito.when(restaurantRepository.findById(RESTAURANT_ID)).thenReturn(OPTIONAL_RESTAURANT_EMPTY);
+        Assertions.assertThrows(BookingException.class, () -> reservationService.createReservation(CREATE_RESERVATION_REST));
     }
 }
