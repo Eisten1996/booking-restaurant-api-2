@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import pe.dipper.bookingrestaurantapi.entities.Reservation;
 import pe.dipper.bookingrestaurantapi.entities.Restaurant;
 import pe.dipper.bookingrestaurantapi.entities.Turn;
 import pe.dipper.bookingrestaurantapi.exceptions.BookingException;
@@ -45,6 +46,7 @@ public class ReservationServiceTest {
 
     private static final Optional<Restaurant> OPTIONAL_RESTAURANT = Optional.of(RESTAURANT);
     private static final Optional<Turn> OPTIONAL_TURN = Optional.of(TURN);
+    private static final Optional<Reservation> OPTIONAL_RESERVATION_EMPTY = Optional.empty();
 
     @Mock
     ReservationRepository reservationRepository;
@@ -80,6 +82,8 @@ public class ReservationServiceTest {
 
         Mockito.when(restaurantRepository.findById(RESTAURANT_ID)).thenReturn(OPTIONAL_RESTAURANT);
         Mockito.when(turnRepository.findById(TURN_ID)).thenReturn(OPTIONAL_TURN);
+        Mockito.when(reservationRepository.findByTurnAndRestaurantId(TURN.getName(), RESTAURANT_ID)).thenReturn(OPTIONAL_RESERVATION_EMPTY);
+        Mockito.when(reservationRepository.save(Mockito.any(Reservation.class))).thenReturn(new Reservation());
         reservationService.createReservation(CREATE_RESERVATION_REST);
     }
 }
