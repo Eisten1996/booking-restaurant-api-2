@@ -48,6 +48,7 @@ public class ReservationServiceTest {
     private static final Optional<Restaurant> OPTIONAL_RESTAURANT = Optional.of(RESTAURANT);
     private static final Optional<Restaurant> OPTIONAL_RESTAURANT_EMPTY = Optional.empty();
     private static final Optional<Turn> OPTIONAL_TURN = Optional.of(TURN);
+    private static final Optional<Turn> OPTIONAL_TURN_EMPTY = Optional.empty();
     private static final Optional<Reservation> OPTIONAL_RESERVATION_EMPTY = Optional.empty();
 
     @Mock
@@ -93,6 +94,23 @@ public class ReservationServiceTest {
     public void createReservationFindByIdTestError() {
 
         Mockito.when(restaurantRepository.findById(RESTAURANT_ID)).thenReturn(OPTIONAL_RESTAURANT_EMPTY);
+        Assertions.assertThrows(BookingException.class, () -> reservationService.createReservation(CREATE_RESERVATION_REST));
+    }
+
+    @Test
+    public void createReservationTurnFindByIdTestError() {
+
+        Mockito.when(restaurantRepository.findById(RESTAURANT_ID)).thenReturn(OPTIONAL_RESTAURANT);
+        Mockito.when(turnRepository.findById(TURN_ID)).thenReturn(OPTIONAL_TURN_EMPTY);
+        Assertions.assertThrows(BookingException.class, () -> reservationService.createReservation(CREATE_RESERVATION_REST));
+    }
+
+    @Test
+    public void createReservationFindByTurnAndRestaurantIdTestError() {
+
+        Mockito.when(restaurantRepository.findById(RESTAURANT_ID)).thenReturn(OPTIONAL_RESTAURANT);
+        Mockito.when(turnRepository.findById(TURN_ID)).thenReturn(OPTIONAL_TURN);
+        Mockito.when(reservationRepository.findByTurnAndRestaurantId(TURN.getName(), RESTAURANT_ID).isPresent());
         Assertions.assertThrows(BookingException.class, () -> reservationService.createReservation(CREATE_RESERVATION_REST));
     }
 }
