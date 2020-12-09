@@ -12,6 +12,7 @@ import pe.dipper.bookingrestaurantapi.entities.Restaurant;
 import pe.dipper.bookingrestaurantapi.entities.Turn;
 import pe.dipper.bookingrestaurantapi.exceptions.BookingException;
 import pe.dipper.bookingrestaurantapi.jsons.CreateReservationRest;
+import pe.dipper.bookingrestaurantapi.jsons.ReservationRest;
 import pe.dipper.bookingrestaurantapi.repositories.ReservationRepository;
 import pe.dipper.bookingrestaurantapi.repositories.RestaurantRepository;
 import pe.dipper.bookingrestaurantapi.repositories.TurnRepository;
@@ -46,6 +47,7 @@ public class ReservationServiceTest {
     private static final Restaurant RESTAURANT = new Restaurant();
     private static final Turn TURN = new Turn();
     private static final Reservation RESERVATION = new Reservation();
+    private static final ReservationRest RESERVATION_REST = new ReservationRest();
 
     private static final List<Turn> TURN_LIST = new ArrayList<>();
 
@@ -92,6 +94,14 @@ public class ReservationServiceTest {
     }
 
     @Test
+    public void getReservationTest() throws BookingException {
+
+        Mockito.when(reservationRepository.findById(RESERVATION_ID)).thenReturn(OPTIONAL_RESERVATION);
+        reservationService.getReservation(RESERVATION_ID);
+    }
+
+
+    @Test
     public void createReservationTest() throws BookingException {
 
         Mockito.when(restaurantRepository.findById(RESTAURANT_ID)).thenReturn(OPTIONAL_RESTAURANT);
@@ -122,6 +132,17 @@ public class ReservationServiceTest {
         Mockito.when(restaurantRepository.findById(RESTAURANT_ID)).thenReturn(OPTIONAL_RESTAURANT);
         Mockito.when(turnRepository.findById(TURN_ID)).thenReturn(OPTIONAL_TURN);
         Mockito.when(reservationRepository.findByTurnAndRestaurantId(TURN.getName(), RESTAURANT.getId())).thenReturn(OPTIONAL_RESERVATION);
+        Assertions.assertThrows(BookingException.class, () -> reservationService.createReservation(CREATE_RESERVATION_REST));
+    }
+
+    @Test
+    public void createReservationInternalServerErrorTestError() {
+
+        Mockito.when(restaurantRepository.findById(RESTAURANT_ID)).thenReturn(OPTIONAL_RESTAURANT);
+        Mockito.when(turnRepository.findById(TURN_ID)).thenReturn(OPTIONAL_TURN);
+        Mockito.when(reservationRepository.findByTurnAndRestaurantId(TURN.getName(), RESTAURANT.getId()))
+                .thenReturn(OPTIONAL_RESERVATION_EMPTY);
+        Mockito.doThrow(Exception.class).when(reservationRepository).save(Mockito.any(Reservation.class));
         Assertions.assertThrows(BookingException.class, () -> reservationService.createReservation(CREATE_RESERVATION_REST));
     }
 }
