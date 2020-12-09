@@ -30,6 +30,7 @@ import java.util.Optional;
 public class ReservationServiceTest {
 
     private static final Long RESTAURANT_ID = 1L;
+    private static final Long RESERVATION_ID = 1L;
     private static final Date DATE = new Date();
     private static final Long PERSON = 1L;
     private static final Long TURN_ID = 1L;
@@ -38,10 +39,13 @@ public class ReservationServiceTest {
     private static final String DESCRIPTION = "Grandes hamburguesas";
     private static final String ADDRESS = "Calle Galindo";
     private static final String IMAGE = "www.image.com";
+    private static final String LOCATOR = "BURGER 3";
+    private static final String TURNO = "TURN_12_00";
 
     private static final CreateReservationRest CREATE_RESERVATION_REST = new CreateReservationRest();
     private static final Restaurant RESTAURANT = new Restaurant();
     private static final Turn TURN = new Turn();
+    private static final Reservation RESERVATION = new Reservation();
 
     private static final List<Turn> TURN_LIST = new ArrayList<>();
 
@@ -50,6 +54,7 @@ public class ReservationServiceTest {
     private static final Optional<Turn> OPTIONAL_TURN = Optional.of(TURN);
     private static final Optional<Turn> OPTIONAL_TURN_EMPTY = Optional.empty();
     private static final Optional<Reservation> OPTIONAL_RESERVATION_EMPTY = Optional.empty();
+    private static final Optional<Reservation> OPTIONAL_RESERVATION = Optional.of(RESERVATION);
 
     @Mock
     ReservationRepository reservationRepository;
@@ -73,6 +78,12 @@ public class ReservationServiceTest {
         RESTAURANT.setId(RESTAURANT_ID);
         RESTAURANT.setImage(IMAGE);
         RESTAURANT.setTurns(TURN_LIST);
+
+        RESERVATION.setId(RESERVATION_ID);
+        RESERVATION.setDate(DATE);
+        RESERVATION.setLocator(LOCATOR);
+        RESERVATION.setTurn(TURNO);
+        RESERVATION.setRestaurant(RESTAURANT);
 
         CREATE_RESERVATION_REST.setDate(DATE);
         CREATE_RESERVATION_REST.setPerson(PERSON);
@@ -106,11 +117,11 @@ public class ReservationServiceTest {
     }
 
     @Test
-    public void createReservationFindByTurnAndRestaurantIdTestError() {
+    public void createReservationTurnAndRestaurantIdTestError() {
 
         Mockito.when(restaurantRepository.findById(RESTAURANT_ID)).thenReturn(OPTIONAL_RESTAURANT);
         Mockito.when(turnRepository.findById(TURN_ID)).thenReturn(OPTIONAL_TURN);
-        Mockito.when(reservationRepository.findByTurnAndRestaurantId(TURN.getName(), RESTAURANT_ID).isPresent());
+        Mockito.when(reservationRepository.findByTurnAndRestaurantId(TURN.getName(), RESTAURANT.getId())).thenReturn(OPTIONAL_RESERVATION);
         Assertions.assertThrows(BookingException.class, () -> reservationService.createReservation(CREATE_RESERVATION_REST));
     }
 }
