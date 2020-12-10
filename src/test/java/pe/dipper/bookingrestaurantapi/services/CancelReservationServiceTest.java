@@ -1,5 +1,6 @@
 package pe.dipper.bookingrestaurantapi.services;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -42,6 +43,27 @@ public class CancelReservationServiceTest {
         Mockito.when(reservationRepository.findByLocator(LOCATOR)).thenReturn(Optional.of(RESERVATION));
         Mockito.when(reservationRepository.deleteByLocator(LOCATOR)).thenReturn(Optional.of(RESERVATION));
         final String response = cancelReservationService.deleteReservation(LOCATOR);
-        assertEquals(response,RESERVATION_DELETED);
+        assertEquals(response, RESERVATION_DELETED);
+    }
+
+    @Test
+    public void deleteReservationNotFountError() throws BookingException {
+        Mockito.when(reservationRepository.findByLocator(LOCATOR)).thenReturn(Optional.empty());
+        Mockito.when(reservationRepository.deleteByLocator(LOCATOR)).thenReturn(Optional.of(RESERVATION));
+
+        Assertions.assertThrows(BookingException.class, () -> {
+            final String response = cancelReservationService.deleteReservation(LOCATOR);
+            assertEquals(response, RESERVATION_DELETED);
+        });
+    }
+
+    @Test
+    public void deleteReservationInternalServerError() throws BookingException {
+        Mockito.when(reservationRepository.findByLocator(LOCATOR)).thenReturn(Optional.of(RESERVATION));
+        Assertions.assertThrows(BookingException.class, () -> {
+            Mockito.doThrow(Exception.class).when(reservationRepository).deleteByLocator(LOCATOR);
+            final String response = cancelReservationService.deleteReservation(LOCATOR);
+            assertEquals(response, RESERVATION_DELETED);
+        });
     }
 }
