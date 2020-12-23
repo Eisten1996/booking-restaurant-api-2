@@ -154,3 +154,17 @@ INSERT INTO `booking_restaurant`.`reservation`
 
 ALTER TABLE `booking_restaurant`.`restaurant` 
 ADD COLUMN `PRICE` INT(19) NULL AFTER `IMAGE`;
+
+ALTER TABLE `booking_restaurant`.`reservation` 
+ADD COLUMN `NAME` VARCHAR(45) NULL AFTER `RESTAURANT_ID`,
+ADD COLUMN `EMAIL` VARCHAR(45) NULL AFTER `NAME`;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`NOTIFICATION`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `booking_restaurant`.`NOTIFICATION` (
+  `ID` INT NOT NULL,
+  `TEMPLATE` VARCHAR(800) NULL,
+  `TEMPLATE_TYPE` VARCHAR(45) NULL,
+  PRIMARY KEY (`ID`))
+ENGINE = InnoDB;
