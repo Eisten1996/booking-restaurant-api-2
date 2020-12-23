@@ -17,3 +17,6 @@ EndPoints o Controladores
 
 ## Sección 10:
 Test Unitario en Spring boot con Junit y mockito
+
+## Sección 27:
+Actualizando la BBDD, mapeando a entidades Java y Repositori de emails
