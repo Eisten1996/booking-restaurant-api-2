@@ -19,8 +19,8 @@ public class Notification {
     @Column(name = "TEMPLATE")
     private String template;
 
-    @Column(name = "TEMPLATE_TYPE")
-    private String templateType;
+    @Column(name = "TEMPLATE_CODE")
+    private String templateCode;
 
     public Long getId() {
         return id;
@@ -38,11 +38,11 @@ public class Notification {
         this.template = template;
     }
 
-    public String getTemplateType() {
-        return templateType;
+    public String getTemplateCode() {
+        return templateCode;
     }
 
-    public void setTemplateType(String templateType) {
-        this.templateType = templateType;
+    public void setTemplateCode(String templateCode) {
+        this.templateCode = templateCode;
     }
 }

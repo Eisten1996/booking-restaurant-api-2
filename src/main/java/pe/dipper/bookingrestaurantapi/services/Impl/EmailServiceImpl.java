@@ -10,6 +10,7 @@ import pe.dipper.bookingrestaurantapi.dtos.EmailTemplateDto;
 import pe.dipper.bookingrestaurantapi.entities.Notification;
 import pe.dipper.bookingrestaurantapi.exceptions.BookingException;
 import pe.dipper.bookingrestaurantapi.exceptions.InternalServerErrorException;
+import pe.dipper.bookingrestaurantapi.exceptions.NotFoundException;
 import pe.dipper.bookingrestaurantapi.repositories.NotificationRepository;
 import pe.dipper.bookingrestaurantapi.services.EmailService;
 
@@ -55,11 +56,12 @@ public class EmailServiceImpl implements EmailService {
 
     private EmailTemplateDto findTemplateAndReplace(final String templateCode, final String currentName) throws BookingException {
 
-        Notification notification = notificationRepository.findByTemplateType(templateCode).get();
+        final Notification notificationTemplate = notificationRepository.findByTemplateType(templateCode)
+                .orElseThrow(() -> new NotFoundException("TEMPLATE_NOT_FOUND", "CODE_TEMPLATE_NOT_FOUND"));
 
         final EmailTemplateDto emailTemplateDto = new EmailTemplateDto();
         emailTemplateDto.setSubject(currentName);
-        emailTemplateDto.setTemplate(notification.getTemplate());
+        emailTemplateDto.setTemplate(notificationTemplate.getTemplate().replaceAll("\\{" + "name" + "\\}", currentName));
         return emailTemplateDto;
     }
 }
