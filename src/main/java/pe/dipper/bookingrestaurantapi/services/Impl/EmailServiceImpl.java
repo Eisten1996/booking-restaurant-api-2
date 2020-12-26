@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import pe.dipper.bookingrestaurantapi.dtos.EmailTemplateDto;
+import pe.dipper.bookingrestaurantapi.entities.Notification;
 import pe.dipper.bookingrestaurantapi.exceptions.BookingException;
 import pe.dipper.bookingrestaurantapi.exceptions.InternalServerErrorException;
+import pe.dipper.bookingrestaurantapi.repositories.NotificationRepository;
 import pe.dipper.bookingrestaurantapi.services.EmailService;
 
 import javax.mail.internet.MimeMessage;
@@ -25,6 +28,9 @@ public class EmailServiceImpl implements EmailService {
 
     @Autowired
     private JavaMailSender javaMailSender;
+
+    @Autowired
+    private NotificationRepository notificationRepository;
 
     @Override
     public String processSendEmail(String receiver, String subject, String templateCode, String currentName) throws BookingException {
@@ -45,5 +51,15 @@ public class EmailServiceImpl implements EmailService {
             throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
         }
         javaMailSender.send(email);
+    }
+
+    private EmailTemplateDto findTemplateAndReplace(final String templateCode, final String currentName) throws BookingException {
+
+        Notification notification = notificationRepository.findByTemplateType(templateCode).get();
+
+        final EmailTemplateDto emailTemplateDto = new EmailTemplateDto();
+        emailTemplateDto.setSubject(currentName);
+        emailTemplateDto.setTemplate(notification.getTemplate());
+        return emailTemplateDto;
     }
 }
