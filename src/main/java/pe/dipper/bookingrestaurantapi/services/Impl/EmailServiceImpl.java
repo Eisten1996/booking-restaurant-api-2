@@ -35,8 +35,9 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public String processSendEmail(String receiver, String subject, String templateCode, String currentName) throws BookingException {
-
-        return null;
+        final EmailTemplateDto emailTemplateDto = findTemplateAndReplace(templateCode, currentName);
+        this.sendEmail(receiver, emailTemplateDto.getSubject(), emailTemplateDto.getTemplate());
+        return "EMAIL_SEND";
     }
 
     private void sendEmail(final String receiver, final String subject, final String template) throws BookingException {
