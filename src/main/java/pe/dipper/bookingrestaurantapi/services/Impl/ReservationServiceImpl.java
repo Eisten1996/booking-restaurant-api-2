@@ -65,6 +65,8 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setLocator(locator);
         reservation.setPerson(createReservationRest.getPerson());
         reservation.setDate(createReservationRest.getDate());
+        reservation.setName(createReservationRest.getName());
+        reservation.setEmail(createReservationRest.getEmail());
         reservation.setRestaurant(restaurantId);
         reservation.setTurn(turn.getName());
 

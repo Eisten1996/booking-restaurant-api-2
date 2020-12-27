@@ -34,7 +34,7 @@ public class EmailServiceImpl implements EmailService {
     private NotificationRepository notificationRepository;
 
     @Override
-    public String processSendEmail(String receiver, String subject, String templateCode, String currentName) throws BookingException {
+    public String processSendEmail(String receiver,  String templateCode, String currentName) throws BookingException {
         final EmailTemplateDto emailTemplateDto = findTemplateAndReplace(templateCode, currentName);
         this.sendEmail(receiver, emailTemplateDto.getSubject(), emailTemplateDto.getTemplate());
         return "EMAIL_SEND";
@@ -57,7 +57,7 @@ public class EmailServiceImpl implements EmailService {
 
     private EmailTemplateDto findTemplateAndReplace(final String templateCode, final String currentName) throws BookingException {
 
-        final Notification notificationTemplate = notificationRepository.findByTemplateType(templateCode)
+        final Notification notificationTemplate = notificationRepository.findByTemplateCode(templateCode)
                 .orElseThrow(() -> new NotFoundException("TEMPLATE_NOT_FOUND", "CODE_TEMPLATE_NOT_FOUND"));
 
         final EmailTemplateDto emailTemplateDto = new EmailTemplateDto();

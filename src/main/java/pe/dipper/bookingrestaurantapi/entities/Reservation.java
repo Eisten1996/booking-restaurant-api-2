@@ -38,8 +38,8 @@ public class Reservation {
     @Column(name = "NAME")
     private String name;
 
-    @Column(name = "PAYMENT")
-    private boolean payment;
+//    @Column(name = "PAYMENT")
+//    private boolean payment;
 
     public Long getId() {
         return id;
@@ -105,11 +105,11 @@ public class Reservation {
         this.name = name;
     }
 
-    public boolean isPayment() {
-        return payment;
-    }
-
-    public void setPayment(boolean payment) {
-        this.payment = payment;
-    }
+//    public boolean isPayment() {
+//        return payment;
+//    }
+//
+//    public void setPayment(boolean payment) {
+//        this.payment = payment;
+//    }
 }
