@@ -16,6 +16,7 @@ import pe.dipper.bookingrestaurantapi.jsons.ReservationRest;
 import pe.dipper.bookingrestaurantapi.repositories.ReservationRepository;
 import pe.dipper.bookingrestaurantapi.repositories.RestaurantRepository;
 import pe.dipper.bookingrestaurantapi.repositories.TurnRepository;
+import pe.dipper.bookingrestaurantapi.services.EmailService;
 import pe.dipper.bookingrestaurantapi.services.ReservationService;
 
 /**
@@ -37,6 +38,9 @@ public class ReservationServiceImpl implements ReservationService {
     @Autowired
     TurnRepository turnRepository;
 
+    @Autowired
+    private EmailService emailService;
+
     public static final ModelMapper MODEL_MAPPER = new ModelMapper();
 
     @Override
@@ -56,8 +60,8 @@ public class ReservationServiceImpl implements ReservationService {
                         .getTurnId())
                 .orElseThrow(() -> new NotFoundException("TURN_NOT_FOUND", "TURN_NOT_FOUND"));
 
-        if (reservationRepository.findByTurnAndRestaurantId(turn.getName(),restaurantId.getId()).isPresent()){
-            throw new NotFoundException("RESERVATION_ALREADT_EXIST","RESERVATION_ALREADT_EXIST");
+        if (reservationRepository.findByTurnAndRestaurantId(turn.getName(), restaurantId.getId()).isPresent()) {
+            throw new NotFoundException("RESERVATION_ALREADT_EXIST", "RESERVATION_ALREADT_EXIST");
         }
 
         String locator = generateLocator(restaurantId, createReservationRest);
@@ -65,6 +69,8 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setLocator(locator);
         reservation.setPerson(createReservationRest.getPerson());
         reservation.setDate(createReservationRest.getDate());
+        reservation.setName(createReservationRest.getName());
+        reservation.setEmail(createReservationRest.getEmail());
         reservation.setRestaurant(restaurantId);
         reservation.setTurn(turn.getName());
 
@@ -74,6 +80,7 @@ public class ReservationServiceImpl implements ReservationService {
             LOGGER.error("INTERNAL_SERVER_ERROR", e);
             throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
         }
+        this.emailService.processSendEmail(createReservationRest.getEmail(), "RESERVATION", createReservationRest.getName());
         return locator;
     }
 
