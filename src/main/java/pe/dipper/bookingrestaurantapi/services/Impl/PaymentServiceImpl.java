@@ -3,6 +3,8 @@ package pe.dipper.bookingrestaurantapi.services.Impl;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pe.dipper.bookingrestaurantapi.jsons.PaymentConfirmRest;
@@ -22,22 +24,25 @@ import java.util.Map;
 @Service
 public class PaymentServiceImpl implements PaymentService {
 
-    @Value("$stripe.key.secretKey")
-    String secretKey;
+    private static final Logger LOGGER = LoggerFactory.getLogger(PaymentServiceImpl.class);
+
+    @Value("${stripe.key.secret}")
+    private String secretKey;
 
     public enum Currency {
-        USD, EUR;
+        usd, eur;
     }
 
     @Override
     public PaymentIntent paymentIntent(PaymentIntentRest paymentIntentRest) throws StripeException {
+
         Stripe.apiKey = secretKey;
         Map<String, Object> params = new HashMap<>();
         List<Object> paymentMethodTypes =
                 new ArrayList<>();
         paymentMethodTypes.add("card");
         params.put("amount", paymentIntentRest.getPrice());
-        params.put("currency", Currency.EUR);
+        params.put("currency", Currency.eur);
         params.put("description", paymentIntentRest.getDescription());
         params.put(
                 "payment_method_types",
