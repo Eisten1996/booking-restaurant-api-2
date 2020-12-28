@@ -48,11 +48,22 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentIntent paymentConfirm(PaymentConfirmRest paymentConfirmRest) throws StripeException {
-        return null;
+        Stripe.apiKey = secretKey;
+        PaymentIntent paymentIntent = PaymentIntent.retrieve(paymentConfirmRest.getPaymentId());
+        Map<String, Object> params = new HashMap<>();
+        params.put("payment_method", "pm_card_visa");
+        paymentIntent.confirm(params);
+
+        return paymentIntent;
     }
 
     @Override
     public PaymentIntent paymentCancel(String paymentId) throws StripeException {
-        return null;
+        Stripe.apiKey = secretKey;
+        PaymentIntent paymentIntent = PaymentIntent.retrieve(paymentId);
+
+        paymentIntent.cancel();
+
+        return paymentIntent;
     }
 }
