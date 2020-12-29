@@ -13,6 +13,7 @@ import pe.dipper.bookingrestaurantapi.jsons.PaymentConfirmRest;
 import pe.dipper.bookingrestaurantapi.jsons.PaymentIntentRest;
 import pe.dipper.bookingrestaurantapi.services.EmailService;
 import pe.dipper.bookingrestaurantapi.services.PaymentService;
+import pe.dipper.bookingrestaurantapi.services.ReservationService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +30,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private ReservationService reservationService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PaymentServiceImpl.class);
 
@@ -65,6 +69,7 @@ public class PaymentServiceImpl implements PaymentService {
         params.put("payment_method", "pm_card_visa");
         paymentIntent.confirm(params);
 
+        reservationService.updateReservation(true, paymentConfirmRest.getLocator());
         this.emailService.processSendEmail(paymentConfirmRest.getEmail(), "PAYMENT", paymentConfirmRest.getName());
 
         return paymentIntent;

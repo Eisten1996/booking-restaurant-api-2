@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pe.dipper.bookingrestaurantapi.exceptions.BookingException;
 import pe.dipper.bookingrestaurantapi.jsons.PaymentConfirmRest;
 import pe.dipper.bookingrestaurantapi.jsons.PaymentIntentRest;
 import pe.dipper.bookingrestaurantapi.services.PaymentService;
@@ -36,7 +37,7 @@ public class PaymentController {
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/confirm", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> paymentConfirm(@RequestBody PaymentConfirmRest paymentConfirmRest) throws StripeException {
+    public ResponseEntity<String> paymentConfirm(@RequestBody PaymentConfirmRest paymentConfirmRest) throws StripeException, BookingException {
         PaymentIntent paymentIntent = paymentService.paymentConfirm(paymentConfirmRest);
 
         String paymentString = paymentIntent.toJson();

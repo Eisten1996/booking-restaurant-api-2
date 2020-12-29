@@ -84,6 +84,22 @@ public class ReservationServiceImpl implements ReservationService {
         return locator;
     }
 
+    @Override
+    public String updateReservation(Boolean payment, String locator) throws BookingException {
+        final Reservation reservation = reservationRepository.findByLocator(locator).orElseThrow(() ->
+                new NotFoundException("CODE_LOCATOR_NOT_FOUND", "LOCATOR_NOT_FOUND")
+        );
+        reservation.setPayment(true);
+        try {
+            reservationRepository.save(reservation);
+        } catch (final Exception e) {
+            LOGGER.error("INTERNAL_SERVER_ERROR", e);
+            throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
+        }
+        return null;
+    }
+
+
     private Reservation getReservationEntity(Long reservationId) throws BookingException {
         return reservationRepository
                 .findById(reservationId)
