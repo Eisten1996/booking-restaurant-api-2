@@ -31,6 +31,9 @@ public class RestaurantRest {
     @JsonProperty("turns")
     private List<TurnRest> turns;
 
+    @JsonProperty("price")
+    private Long price;
+
     public Long getId() {
         return id;
     }
@@ -77,5 +80,13 @@ public class RestaurantRest {
 
     public void setTurns(List<TurnRest> turns) {
         this.turns = turns;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
     }
 }
