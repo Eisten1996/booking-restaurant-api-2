@@ -2,6 +2,8 @@ package pe.dipper.bookingrestaurantapi.controllers;
 
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,6 +23,9 @@ import pe.dipper.bookingrestaurantapi.services.PaymentService;
 @CrossOrigin(value = "http://localhost:4200")
 @RequestMapping(path = "/booking-restaurant" + "/v1")
 public class PaymentController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(PaymentController.class);
+
 
     @Autowired
     PaymentService paymentService;
