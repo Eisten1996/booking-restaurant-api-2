@@ -34,6 +34,9 @@ public class ReservationServiceTest {
     private static final Long RESERVATION_ID = 1L;
     private static final Date DATE = new Date();
     private static final Long PERSON = 1L;
+    private static final String EMAIL = "dipper@gmail.com";
+    private static final String NAME_RESERVATION = "dipper";
+    private static final boolean PAYMENT = true;
     private static final Long TURN_ID = 1L;
 
     private static final String NAME = "BURGER";
@@ -65,6 +68,9 @@ public class ReservationServiceTest {
     RestaurantRepository restaurantRepository;
 
     @Mock
+    EmailService emailService;
+
+    @Mock
     TurnRepository turnRepository;
 
     @InjectMocks
@@ -86,11 +92,16 @@ public class ReservationServiceTest {
         RESERVATION.setLocator(LOCATOR);
         RESERVATION.setTurn(TURNO);
         RESERVATION.setRestaurant(RESTAURANT);
+        RESERVATION.setEmail(EMAIL);
+        RESERVATION.setName(NAME_RESERVATION);
+        RESERVATION.setPayment(PAYMENT);
 
         CREATE_RESERVATION_REST.setDate(DATE);
         CREATE_RESERVATION_REST.setPerson(PERSON);
         CREATE_RESERVATION_REST.setRestaurantId(RESTAURANT_ID);
         CREATE_RESERVATION_REST.setTurnId(TURN_ID);
+        CREATE_RESERVATION_REST.setEmail(EMAIL);
+        CREATE_RESERVATION_REST.setName(NAME_RESERVATION);
     }
 
     @Test

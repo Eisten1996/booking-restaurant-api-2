@@ -105,7 +105,7 @@ public class Reservation {
         this.name = name;
     }
 
-    public boolean isPayment() {
+    public boolean getPayment() {
         return payment;
     }
 
