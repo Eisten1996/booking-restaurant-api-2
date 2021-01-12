@@ -17,7 +17,7 @@ import pe.dipper.bookingrestaurantapi.services.ReservationService;
  */
 
 @RestController()
-@CrossOrigin(value = "https://151.101.65.195:4200")
+@CrossOrigin(origins = "*")
 @RequestMapping(path = "/booking-restaurant" + "/v1")
 public class ReservationController {
 

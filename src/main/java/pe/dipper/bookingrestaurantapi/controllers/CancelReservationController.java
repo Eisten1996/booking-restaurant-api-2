@@ -18,7 +18,7 @@ import pe.dipper.bookingrestaurantapi.services.Impl.CancelReservationServiceImpl
  */
 
 @RestController()
-@CrossOrigin(value = "https://151.101.65.195:4200")
+@CrossOrigin(origins = "*")
 @RequestMapping(path = "/booking-restaurant" + "/v1")
 public class CancelReservationController {
 
