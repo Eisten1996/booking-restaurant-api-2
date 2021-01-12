@@ -20,7 +20,7 @@ import pe.dipper.bookingrestaurantapi.services.PaymentService;
  * @created 27/12/2020 - 21:16
  */
 @RestController()
-@CrossOrigin(value = "http://localhost:4200")
+@CrossOrigin(value = "https://booking-restaurant-app.web.app:4200")
 @RequestMapping(path = "/booking-restaurant" + "/v1")
 public class PaymentController {
 
